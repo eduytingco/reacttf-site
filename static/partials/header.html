@@ -1,0 +1,28 @@
+<!-- Shared site header. Loaded into [data-include="header"] by src/main.ts -->
+<header class="grid">
+  <div class="header">
+    <a class="brand" href="index.html" aria-label="REACT home" data-i18n-attr="aria-label:brand.home.label">
+      <picture>
+        <source type="image/webp"
+                srcset="static/images/react-badge-64.webp 1x, static/images/react-badge-128.webp 2x, static/images/react-badge-192.webp 3x">
+        <img class="badge" src="static/images/react-badge-128.png" width="64" height="64" alt="">
+      </picture>
+      <span class="brand-text">
+        <span class="brand-name" data-i18n="brand.name">REACT</span>
+        <span class="brand-tagline" data-i18n="brand.tagline">Regional Endorsement Allied Computer Team</span>
+      </span>
+    </a>
+
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu" data-i18n-attr="aria-label:nav.menu.open">
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Main" data-i18n-attr="aria-label:nav.label">
+      <a href="index.html#about" data-i18n="nav.about">About</a>
+      <a href="index.html#crimes-title" data-i18n="nav.crimes">Crimes</a>
+      <a href="index.html#resources-title" data-i18n="nav.resources">Resources</a>
+      <a href="index.html#contacts" data-i18n="nav.contacts">Contacts</a>
+      <a href="index.html#media" data-i18n="nav.media">Media</a>
+    </nav>
+  </div>
+</header>

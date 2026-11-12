@@ -1,0 +1,26 @@
+@use "../abstracts" as *;
+
+// ==========================================================================
+//  2. Base
+// ==========================================================================
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overflow-x: clip;      // 100vw bleed layers include the scrollbar
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// Shared full-bleed helper used in the HTML (hero, tile sections, footer)
+.bleed { @include bleed; }

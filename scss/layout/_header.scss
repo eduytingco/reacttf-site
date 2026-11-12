@@ -1,0 +1,100 @@
+@use "../abstracts" as *;
+
+// ==========================================================================
+//  4. Header (markup: static/partials/header.html)
+// ==========================================================================
+
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: $header-height;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  @include plain-link;
+}
+
+.badge {
+  display: block;
+  flex: none;
+  width: $badge-size;
+  height: $badge-size;
+}
+
+.brand-text { display: flex; flex-direction: column; min-width: 0; }
+.brand-name { font-size: 26px; font-weight: 800; letter-spacing: .04em; line-height: 1.1; }
+.brand-tagline { font-size: 12px; line-height: 1.3; color: var(--muted); }
+
+.site-nav {
+  display: flex;
+  gap: 28px;
+
+  a {
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover { color: var(--accent); border-bottom-color: var(--accent); }
+    &:focus-visible { @include focus-ring(4px, 2px); }
+  }
+}
+
+.menu-btn {
+  display: none;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: $radius-md;
+  color: var(--text);
+  cursor: pointer;
+}
+
+// Below 900px the links collapse into a dropdown menu
+@include down(nav) {
+  .menu-btn { display: grid; }
+
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: $z-menu;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: $radius-lg;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+
+    &.open { display: flex; }
+
+    a {
+      padding: 12px;
+      border-bottom: 0;
+      border-radius: $radius-sm;
+
+      &:hover { background: var(--container); }
+    }
+  }
+}
+
+@include down(xs) {
+  .badge { width: $badge-size-compact; height: $badge-size-compact; }
+  .brand-name { font-size: 22px; }
+  .brand-tagline { font-size: 11px; }
+}

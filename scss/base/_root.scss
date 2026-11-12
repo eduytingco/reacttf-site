@@ -1,0 +1,33 @@
+@use "sass:map";
+@use "../abstracts" as *;
+
+// ==========================================================================
+//  1. Tokens: CSS custom properties (adjustable at runtime)
+// ==========================================================================
+
+:root {
+  color-scheme: light;
+
+  --bg: #{$color-bg};
+  --surface: #{$color-surface};
+  --container: #{$color-container};
+  --text: #{$color-text};
+  --muted: #{$color-muted};
+  --accent: #{$color-accent};
+  --accent-soft: #{$color-accent-soft};
+  --border: #{$color-border};
+
+  --gutter: #{map.get($spacing, base, gutter)};   // gap between columns
+  --margin: #{map.get($spacing, base, margin)};   // outer page margin
+  --max-width: #{$grid-max-width};
+}
+
+// Larger gutters and margins as the screen grows
+@each $bp in (md, lg) {
+  @include up($bp) {
+    :root {
+      --gutter: #{map.get($spacing, $bp, gutter)};
+      --margin: #{map.get($spacing, $bp, margin)};
+    }
+  }
+}

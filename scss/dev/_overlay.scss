@@ -1,0 +1,41 @@
+@use "../abstracts" as *;
+
+// ==========================================================================
+//  8. Dev: column overlay
+//  Remove this partial (and its @use in styles.scss) for production.
+// ==========================================================================
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: $z-overlay;
+  pointer-events: none;
+
+  .grid { height: 100%; }
+
+  .grid > div {
+    grid-column: span 1;
+    background: var(--accent-soft);
+    outline: 1px dashed var(--accent);
+    opacity: .6;
+  }
+}
+
+body.show-cols .overlay { display: block; }
+
+.toggle {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: $z-dev;
+  padding: 6px 10px;
+  background: var(--accent);
+  border: 0;
+  border-radius: $radius-sm;
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  opacity: .85;
+  cursor: pointer;
+}

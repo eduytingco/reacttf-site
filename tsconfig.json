@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "es2020",
+    "lib": ["es2020", "dom", "dom.iterable"],
+    "rootDir": "src",
+    "outDir": "js",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": true,
+    "sourceMap": true,
+    "removeComments": false
+  },
+  "include": ["src/**/*.ts"]
+}

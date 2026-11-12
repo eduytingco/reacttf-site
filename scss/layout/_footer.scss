@@ -1,0 +1,20 @@
+@use "../abstracts" as *;
+
+// ==========================================================================
+//  7. Footer (markup: static/partials/footer.html)
+// ==========================================================================
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: var(--gutter);
+  padding-block: 32px;
+  color: $color-footer-text;
+  font-size: 14px;
+
+  &::before { background: $color-footer-bg; }   // the .bleed layer
+  a { color: #fff; }
+}

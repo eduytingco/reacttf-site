@@ -1,0 +1,114 @@
+@use "../abstracts" as *;
+
+// ==========================================================================
+//  9. Secondary page (page.html)
+// ==========================================================================
+
+.detail {
+  display: grid;
+  grid-template-columns: subgrid;
+  row-gap: 32px;
+  align-items: start;
+  padding-block: 24px 48px;
+}
+
+.detail-status { margin: 48px 0; color: var(--muted); }
+
+.breadcrumb,
+.detail-status { grid-column: 1 / -1; }
+
+.breadcrumb {
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    @include plain-list;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  li + li::before { content: "/"; margin-right: 8px; color: var(--border); }
+
+  a {
+    @include plain-link(var(--accent));
+    &:hover { text-decoration: underline; }
+  }
+
+  [aria-current="page"] { color: var(--text); }
+}
+
+.detail-header { margin-bottom: 8px; }
+
+.detail-eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.detail-article h1,
+.detail-message h1 {
+  margin: 0 0 16px;
+  font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.detail-intro {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1.05rem, 1rem + .3vw, 1.2rem);
+  line-height: 1.6;
+}
+
+.detail-section {
+  margin-top: 32px;
+
+  h2 { margin: 0 0 12px; font-size: 1.35rem; letter-spacing: -0.01em; }
+  p,
+  li { color: $color-text-body; line-height: 1.7; }
+  p { margin: 0 0 16px; max-width: 68ch; }
+  ul { margin: 0 0 16px; padding-left: 1.25em; }
+  li + li { margin-top: 6px; }
+}
+
+// Related links reuse the glass tile material
+.detail-related {
+  position: sticky;
+  top: 24px;
+  padding: 24px;
+  @include glass;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba($shadow-ink, .08);
+
+  h2 { margin: 0 0 12px; font-size: 1.1rem; }
+  ul { @include plain-list; }
+  li + li { border-top: 1px solid var(--border); }
+
+  a {
+    display: block;
+    padding: 12px 0;
+    @include plain-link;
+    font-weight: 600;
+
+    &:hover { color: var(--accent); }
+    &:focus-visible { @include focus-ring(2px, 4px); }
+  }
+
+  @include down(lg) { position: static; }
+}
+
+.detail-message p { color: var(--muted); max-width: 60ch; }
+
+.detail-back {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 12px 20px;
+  background: var(--accent);
+  border-radius: $radius-md;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}

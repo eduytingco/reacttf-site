@@ -1,0 +1,76 @@
+@use "sass:map";
+@use "variables" as *;
+
+// ==========================================================================
+//  Mixins
+// ==========================================================================
+
+/// Media query at or above a named breakpoint: @include up(md) { ... }
+@mixin up($name) {
+  @media (min-width: map.get($breakpoints, $name)) { @content; }
+}
+
+/// Media query below a named breakpoint: @include down(nav) { ... }
+@mixin down($name) {
+  @media (max-width: map.get($breakpoints, $name) - 1px) { @content; }
+}
+
+/// Respect the visitor's motion and transparency settings.
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) { @content; }
+}
+
+@mixin reduced-transparency {
+  @media (prefers-reduced-transparency: reduce) { @content; }
+}
+
+/// Consistent keyboard focus ring.
+@mixin focus-ring($offset: 2px, $radius: null) {
+  outline: 2px solid var(--accent);
+  outline-offset: $offset;
+  @if $radius { border-radius: $radius; }
+}
+
+/// Backdrop blur with the WebKit prefix Safari still needs.
+@mixin backdrop($value) {
+  -webkit-backdrop-filter: $value;
+          backdrop-filter: $value;
+}
+
+/// Apple-style frosted glass surface.
+@mixin glass($fill: rgba(255, 255, 255, .6), $radius: $radius-glass) {
+  background: $fill;
+  @include backdrop(blur(24px) saturate(180%));
+  border-radius: $radius;
+}
+
+/// A ::before layer that stretches to both viewport edges while the
+/// element's own content stays on the grid. Style the layer via ::before.
+@mixin bleed {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+/// Reset link styling to plain text.
+@mixin plain-link($color: var(--text)) {
+  color: $color;
+  text-decoration: none;
+}
+
+/// Reset list styling.
+@mixin plain-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

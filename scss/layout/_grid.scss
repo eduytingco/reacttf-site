@@ -1,0 +1,38 @@
+@use "../abstracts" as *;
+
+// ==========================================================================
+//  3. 12-column grid
+//  .col-N    all sizes
+//  .md-N     640px and up
+//  .lg-N     1024px and up
+// ==========================================================================
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat($grid-columns, minmax(0, 1fr));
+  gap: var(--gutter);
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+
+// Mobile-first: every direct child spans the full width by default
+.grid > *,
+.full { grid-column: 1 / -1; }
+
+@mixin column-spans($prefix) {
+  @for $i from 1 through $grid-columns {
+    .#{$prefix}-#{$i} { grid-column: span $i; }
+  }
+}
+
+@include column-spans(col);
+@include up(md) { @include column-spans(md); }
+@include up(lg) { @include column-spans(lg); }
+
+main.grid {
+  flex: 1;
+  align-content: start;
+  padding-bottom: var(--gutter);
+}

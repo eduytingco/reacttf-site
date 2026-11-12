@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="page.title">REACT | Regional Endorsement Allied Computer Team</title>
+  <link rel="icon" href="static/images/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="static/images/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+<!--
+  Secondary page template.
+  Header and footer come from static/partials/ (shared with index.html).
+  The body is built by src/main.ts from static/data/pages.json using the
+  ?page=<slug> query string, e.g. page.html?page=pig-butchering
+-->
+<div class="page">
+
+  <div data-include="header"></div>
+
+  <main class="grid" id="main">
+    <div class="detail" data-page-content aria-live="polite" aria-busy="true">
+      <p class="detail-status" data-i18n="detail.loading">Loading…</p>
+    </div>
+  </main>
+
+  <div data-include="footer"></div>
+
+</div>
+
+<!-- Dev: 12-column overlay (remove for production) -->
+<button class="toggle" type="button" data-i18n="dev.columns">Columns</button>
+<div class="overlay" aria-hidden="true">
+  <div class="grid">
+    <div></div><div></div><div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+</div>
+
+</body>
+</html>

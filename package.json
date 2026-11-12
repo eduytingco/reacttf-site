@@ -1,0 +1,21 @@
+{
+  "name": "reacttf-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "REACT website front end",
+  "scripts": {
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "sass scss/styles.scss css/styles.css --style=expanded --source-map",
+    "build:js": "tsc",
+    "watch": "npm run watch:css & npm run watch:js",
+    "watch:css": "sass scss/styles.scss css/styles.css --style=expanded --source-map --watch",
+    "watch:js": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "serve": "python3 -m http.server 8000",
+    "start": "npm run build && npm run serve"
+  },
+  "devDependencies": {
+    "sass": "1.107.1",
+    "typescript": "7.0.2"
+  }
+}

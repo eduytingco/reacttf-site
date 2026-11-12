@@ -1,0 +1,25 @@
+// ==========================================================================
+//  REACT site styles: SCSS entry point
+//  Compiles to css/styles.css  →  npm run build:css
+//
+//  abstracts/   variables, mixins (no CSS output)
+//  base/        tokens, element defaults
+//  layout/      grid, header, footer
+//  components/  carousel, icon tiles, secondary page
+//  dev/         column overlay (remove for production)
+// ==========================================================================
+
+@use "base/root";
+@use "base/base";
+
+@use "layout/grid";
+@use "layout/header";
+
+@use "components/carousel";
+@use "components/icon-tiles";
+
+@use "layout/footer";
+
+@use "components/detail";
+
+@use "dev/overlay";

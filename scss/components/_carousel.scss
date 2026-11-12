@@ -1,0 +1,126 @@
+@use "sass:list";
+@use "../abstracts" as *;
+
+// ==========================================================================
+//  5. Hero + carousel
+// ==========================================================================
+
+.hero {
+  margin-bottom: calc(var(--gutter) * 1.5);
+  padding-bottom: 24px;
+
+  &::before {
+    background: var(--surface);
+    border-block: 1px solid var(--border);
+  }
+}
+
+.carousel { min-width: 0; }
+
+.carousel-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;               // Firefox
+  margin-inline: calc(50% - 50vw);     // slides run edge to edge
+  outline-offset: -4px;
+
+  &::-webkit-scrollbar { display: none; }
+  &:focus-visible { outline: 2px solid var(--accent); }
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;                      // exactly one slide in view
+  margin: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.slide img,
+.slide-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 75vh;
+  object-fit: cover;
+}
+
+// Placeholder art: replace each .slide-img div with an <img>
+$placeholder-gradients: (
+  (#3b5bdb, #91a7ff),
+  (#0ca678, #96f2d7),
+  (#e8590c, #ffc078),
+  (#862e9c, #e599f7),
+);
+
+@each $stops in $placeholder-gradients {
+  $i: list.index($placeholder-gradients, $stops);
+  .s#{$i} { background: linear-gradient(135deg, list.nth($stops, 1), list.nth($stops, 2)); }
+}
+
+.slide figcaption {
+  position: absolute;
+  bottom: 20px;
+  // Line the caption up with the grid's content edge
+  left: max(var(--margin), calc((100vw - var(--max-width)) / 2 + var(--margin)));
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, .55);
+  border-radius: $radius-sm;
+  color: #fff;
+  font-size: 13px;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.ctrl {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color $ease-fast, color $ease-fast, opacity $ease-fast;
+
+  &:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  &:focus-visible { @include focus-ring; }
+  &:disabled { opacity: .35; cursor: default; }
+}
+
+.dots { display: flex; flex: 1; justify-content: center; gap: 8px; }
+
+.dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  background: var(--border);
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: width $ease-base, background-color $ease-base;
+
+  &[aria-current="true"] { width: 24px; background: var(--accent); }
+}
+
+.counter {
+  min-width: 3ch;
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+@include reduced-motion {
+  .carousel-track { scroll-behavior: auto; }
+  .dot,
+  .ctrl { transition: none; }
+}
