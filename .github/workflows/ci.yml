@@ -1,7 +1,9 @@
-name: Build
+name: Build and Deploy
 
 on:
   push:
+    branches:
+      - main
   pull_request:
 
 permissions:
@@ -29,3 +31,32 @@ jobs:
 
       - name: Build site
         run: npm run build
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir -p _site
+          cp index.html page.html maintenance.html messages.properties _site/
+          cp -R css js static _site/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
