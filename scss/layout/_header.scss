@@ -8,7 +8,6 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
   height: $header-height;
 }
@@ -19,6 +18,8 @@
   gap: 14px;
   min-width: 0;
   @include plain-link;
+
+  @include up(nav) { flex-shrink: 0; }
 }
 
 .badge {
@@ -35,6 +36,7 @@
 .site-nav {
   display: flex;
   gap: 28px;
+  margin-left: auto;
 
   a {
     padding: 6px 0;
@@ -64,7 +66,7 @@
 
 // Below 900px the links collapse into a dropdown menu
 @include down(nav) {
-  .menu-btn { display: grid; }
+  .menu-btn { display: grid; order: 1; }
 
   .site-nav {
     display: none;
@@ -89,6 +91,106 @@
       border-radius: $radius-sm;
 
       &:hover { background: var(--container); }
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+//  Site search
+// --------------------------------------------------------------------------
+
+.search-toggle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  color: var(--text);
+  cursor: pointer;
+  transition: color $ease-fast, border-color $ease-fast;
+
+  &:hover { color: var(--accent); border-color: var(--border); }
+  &:focus-visible { @include focus-ring(2px); }
+}
+
+.search-bar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 14px;
+  background: var(--container);
+  border: 1px solid var(--border);
+  border-radius: $radius-md;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color $ease-fast, box-shadow $ease-fast;
+
+  &:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  &::placeholder { color: var(--muted); }
+}
+
+.search-close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color $ease-fast;
+
+  &:hover { color: var(--text); }
+  &:focus-visible { @include focus-ring(2px); }
+}
+
+.header.search-active {
+  .search-toggle { display: none; }
+  .site-nav      { display: none; }
+  .search-bar    { display: flex; margin-left: auto; width: 100%; max-width: 400px; }
+}
+
+@include down(nav) {
+  .search-toggle { margin-left: auto; }
+
+  .header.search-active {
+    .menu-btn   { margin-left: auto; }
+    .search-bar {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      max-width: none;
+      margin-top: 8px;
+      padding: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: $radius-lg;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+      z-index: $z-menu;
     }
   }
 }

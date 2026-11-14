@@ -350,6 +350,36 @@ function initMenu() {
             setOpen(false);
     });
 }
+/* Site search toggle
+   -------------------------------------------------------------------------- */
+function initSearch() {
+    const header = $('.header');
+    const toggle = $('.search-toggle');
+    const bar = $('.search-bar');
+    const input = $('.search-input');
+    const closeBtn = $('.search-close');
+    if (!header || !toggle || !bar || !input || !closeBtn) return;
+    const open = () => {
+        header.classList.add('search-active');
+        toggle.setAttribute('aria-expanded', 'true');
+        input.focus();
+    };
+    const close = () => {
+        header.classList.remove('search-active');
+        toggle.setAttribute('aria-expanded', 'false');
+        input.value = '';
+        toggle.focus();
+    };
+    toggle.addEventListener('click', open);
+    closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        close();
+    });
+    bar.addEventListener('submit', (e) => e.preventDefault());
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && header.classList.contains('search-active')) close();
+    });
+}
 const DEFAULT_CAROUSEL_OPTIONS = {
     dwell: 2000,
     introAutoplay: true,
@@ -472,6 +502,7 @@ async function main() {
     applyMessages();
     await renderPage(); // builds its own text with t(), and sets the page title
     initMenu();
+    initSearch();
     $$('.carousel').forEach((c) => initCarousel(c));
     initColumnToggle();
 }

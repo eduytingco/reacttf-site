@@ -1,7 +1,64 @@
 <!-- Shared site footer. Loaded into [data-include="footer"] by src/main.ts -->
 <footer class="grid">
   <div class="footer bleed">
-    <span data-i18n="footer.copyright" data-i18n-args="$year">© 2026 REACT Task Force</span>
-    <span data-i18n="footer.links">Lorem · Ipsum · Dolor</span>
+
+    <div class="footer-columns">
+      <div class="footer-col">
+        <a class="footer-brand" href="index.html" aria-label="REACT home">
+          <picture>
+            <source type="image/webp"
+                    srcset="static/images/react-badge-64.webp 1x, static/images/react-badge-128.webp 2x">
+            <img src="static/images/react-badge-128.png" width="48" height="48" alt="">
+          </picture>
+          <span class="footer-brand-name">REACT</span>
+        </a>
+        <p class="footer-about" data-i18n="footer.about">Protecting communities from high-tech crime through regional collaboration, education, and law enforcement partnerships.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading" data-i18n="footer.quickLinks">Quick Links</h3>
+        <ul>
+          <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+          <li><a href="index.html#crimes-title" data-i18n="nav.crimes">Crimes</a></li>
+          <li><a href="index.html#resources-title" data-i18n="nav.resources">Resources</a></li>
+          <li><a href="index.html#contacts" data-i18n="nav.contacts">Contacts</a></li>
+          <li><a href="index.html#media" data-i18n="nav.media">Media</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading" data-i18n="footer.resources">Resources</h3>
+        <ul>
+          <li><a href="page.html?page=report-a-crime" data-i18n="resources.reportCrime">How to report a crime</a></li>
+          <li><a href="page.html?page=pig-butchering-awareness" data-i18n="resources.pigButcheringAwareness">Pig butchering awareness</a></li>
+          <li><a href="page.html?page=victim-assistance" data-i18n="resources.victimAssistance">Victim assistance</a></li>
+          <li><a href="page.html?page=credit-bureaus" data-i18n="resources.creditBureaus">Credit bureaus</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading" data-i18n="footer.contact">Contact</h3>
+        <ul class="footer-contact">
+          <li>
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span data-i18n="footer.address">Sacramento, CA</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <a href="tel:+19165551234" data-i18n="footer.phone">(916) 555-1234</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright" data-i18n-args="$year">&copy; 2026 REACT Task Force. All rights reserved.</span>
+      <span class="footer-legal">
+        <a href="#" data-i18n="footer.privacy">Privacy Policy</a>
+        <a href="#" data-i18n="footer.terms">Terms of Service</a>
+        <a href="#" data-i18n="footer.accessibility">Accessibility</a>
+      </span>
+    </div>
+
   </div>
 </footer>
