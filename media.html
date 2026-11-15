@@ -93,8 +93,8 @@
 
 <script>
 (function () {
-  var API = 'api/media.php';
-  var AUTH_API = 'api/auth.php';
+  var API = 'https://api.reacttf.org/media.php';
+  var AUTH_API = 'https://api.reacttf.org/auth.php';
   var tbody = document.getElementById('media-tbody');
   var formSection = document.querySelector('.media-form-section');
   var loginSection = document.querySelector('.media-login-section');
@@ -144,7 +144,7 @@
   }
 
   if (wantsEdit) {
-    fetch(AUTH_API, { credentials: 'same-origin' })
+    fetch(AUTH_API, { credentials: 'include' })
       .then(parseJSON)
       .then(function (data) {
         if (data.authenticated) enableEditMode();
@@ -162,7 +162,7 @@
     fetch(AUTH_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'same-origin',
+      credentials: 'include',
       body: JSON.stringify({
         username: loginForm.username.value.trim(),
         password: loginForm.password.value
@@ -178,7 +178,7 @@
   });
 
   logoutBtn.addEventListener('click', function () {
-    fetch(AUTH_API, { method: 'DELETE', credentials: 'same-origin' })
+    fetch(AUTH_API, { method: 'DELETE', credentials: 'include' })
       .then(function () { window.location.href = 'media.html'; });
   });
 
@@ -222,7 +222,7 @@
   }
 
   function loadMedia() {
-    fetch(API)
+    fetch(API, { credentials: 'include' })
       .then(parseJSON)
       .then(renderRows)
       .catch(function (err) {
@@ -237,7 +237,7 @@
     if (!confirm('Remove this entry?')) return;
     var id = btn.getAttribute('data-id');
     btn.disabled = true;
-    fetch(API + '?id=' + encodeURIComponent(id), { method: 'DELETE' })
+    fetch(API + '?id=' + encodeURIComponent(id), { method: 'DELETE', credentials: 'include' })
       .then(parseJSON)
       .then(function () { loadMedia(); })
       .catch(function (err) { alert(err.message); });
@@ -259,6 +259,7 @@
     fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify(data)
     })
     .then(parseJSON)
