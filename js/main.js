@@ -459,6 +459,24 @@ function initCarousel(carousel, options = {}) {
     else
         window.addEventListener('load', startAutoplay, { once: true });
 }
+/* Brand letter animation
+   -------------------------------------------------------------------------- */
+function initBrandLetters() {
+    if (!document.body.hasAttribute('data-animate'))
+        return;
+    const brandName = $('.brand-name');
+    if (!brandName)
+        return;
+    const text = brandName.textContent ?? '';
+    brandName.innerHTML = '';
+    for (let i = 0; i < text.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'letter';
+        span.textContent = text[i];
+        span.style.animationDelay = `${0.3 + i * 0.08}s`;
+        brandName.appendChild(span);
+    }
+}
 /* Dev: column overlay toggle (remove for production)
    -------------------------------------------------------------------------- */
 function initColumnToggle() {
@@ -474,6 +492,7 @@ async function main() {
     await Promise.all([loadPartials(), loadMessages()]);
     applyMessages();
     await renderPage(); // builds its own text with t(), and sets the page title
+    initBrandLetters();
     initMenu();
     $$('.carousel').forEach((c) => initCarousel(c));
     initColumnToggle();

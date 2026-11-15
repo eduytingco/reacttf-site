@@ -55,8 +55,10 @@ body[data-animate] {
   }
 
   .brand-name .letter {
+    display: inline-block;
     opacity: 0;
-    animation: fade-in-slide .6s ease-out both;
+    animation: fade-in-slide .4s ease-out both;
+    // animation-delay is set inline by JS per letter
   }
 
   .brand-tagline {
