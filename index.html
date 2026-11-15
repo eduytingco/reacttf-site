@@ -3,6 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+// ── Maintenance toggle ─────────────────────────────
+// true  = show maintenance page
+// false = load the real site
+var MAINTENANCE = true;
+
+if (MAINTENANCE) {
+  var params = new URLSearchParams(window.location.search);
+  if (params.has('bypass')) {
+    document.cookie = 'bypass_maintenance=true; path=/; max-age=86400';
+    MAINTENANCE = false;
+  } else if (document.cookie.indexOf('bypass_maintenance=true') !== -1) {
+    MAINTENANCE = false;
+  }
+}
+if (!MAINTENANCE) {
+  window.location.replace('index-real.html');
+}
+</script>
 <meta name="robots" content="noindex, nofollow">
 <title>REACT Task Force — Scheduled Maintenance</title>
 <meta name="description" content="The REACT Task Force website is temporarily offline for scheduled maintenance.">
@@ -215,10 +234,6 @@
 </footer>
 <script>
   try { document.getElementById('yr').textContent = new Date().getFullYear(); } catch (e) {}
-  if (new URLSearchParams(window.location.search).has('bypass')) {
-    document.cookie = 'bypass_maintenance=true; path=/; max-age=86400';
-    window.location.href = '/index.html';
-  }
 </script>
 </body>
 </html>
