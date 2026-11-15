@@ -4,7 +4,8 @@
   "private": true,
   "description": "REACT website front end",
   "scripts": {
-    "build": "npm run build:css && npm run build:js",
+    "csv2json": "node scripts/csv2json.js",
+    "build": "npm run csv2json && npm run build:css && npm run build:js",
     "build:css": "sass scss/styles.scss css/styles.css --style=expanded --source-map",
     "build:js": "tsc",
     "watch": "npm run watch:css & npm run watch:js",

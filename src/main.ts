@@ -318,6 +318,15 @@ function renderBreadcrumb(page: PageData): HTMLElement {
   ]);
 }
 
+function renderPageHero(page: PageData): HTMLElement {
+  const wrapper = el('section', { className: 'page-hero bleed' });
+  const inner = el('div', { className: 'page-hero-inner' }, [
+    el('h1', { className: 'page-hero-title', text: t(page.titleKey) }),
+  ]);
+  wrapper.appendChild(inner);
+  return wrapper;
+}
+
 function renderArticle(page: PageData): HTMLElement {
   const sections = page.sections.map((section) =>
     el('section', { className: 'detail-section' }, [
@@ -330,11 +339,6 @@ function renderArticle(page: PageData): HTMLElement {
   );
 
   return el('article', { className: 'detail-article col-12 lg-8' }, [
-    el('header', { className: 'detail-header' }, [
-      el('p', { className: 'detail-eyebrow', text: t(CATEGORY_INFO[page.category].titleKey) }),
-      el('h1', { text: t(page.titleKey) }),
-      el('p', { className: 'detail-intro', text: page.intro }),
-    ]),
     ...sections,
   ]);
 }
@@ -377,7 +381,7 @@ async function renderPage(): Promise<void> {
 
     if (page) {
       document.title = t('detail.titleFormat', [t(page.titleKey)]);
-      content = [renderBreadcrumb(page), renderArticle(page), renderRelated(slug, page, pages)];
+      content = [renderPageHero(page), renderBreadcrumb(page), renderArticle(page), renderRelated(slug, page, pages)];
     } else {
       document.title = t('detail.titleFormat', [t('detail.notFound.title')]);
       content = renderMessage('detail.notFound.title', 'detail.notFound.body');

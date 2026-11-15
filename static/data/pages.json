@@ -1,5 +1,5 @@
 {
-  "_comment": "Content for page.html?page=<slug>. Each key below is a slug. category must be 'crimes' or 'resources'. titleKey points to messages.properties so tiles and pages share one name.",
+  "_comment": "Auto-generated from pages.csv — do not edit by hand. Run: npm run csv2json",
   "pages": {
     "high-crimes": {
       "category": "crimes",

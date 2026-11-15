@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="page.title">REACT | Regional Endorsement Allied Computer Team</title>
+  <link rel="icon" href="static/images/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="static/images/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body data-animate>
+<!--
+  Header and footer come from static/partials/ (shared with page.html).
+  Text: every string below is a fallback. At runtime src/main.ts loads
+  messages.properties and replaces it using the data-i18n keys:
+    data-i18n="key"                 -> element text
+    data-i18n-attr="attr:key, ..."  -> attribute values (e.g. aria-label)
+    data-i18n-args="a, b"           -> fills {0}, {1}; "$year" = current year
+-->
+<div class="page">
+
+  <div data-include="header"></div>
+
+  <main class="grid">
+
+    <!-- Hero carousel -->
+    <section class="hero bleed">
+      <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Featured stories" data-i18n-attr="aria-label:carousel.label">
+        <div class="carousel-track" tabindex="0">
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="1 of 4">
+            <div class="slide-img s1"></div>
+            <figcaption data-i18n="carousel.slide1.caption">Lorem ipsum dolor</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 4">
+            <div class="slide-img s2"></div>
+            <figcaption data-i18n="carousel.slide2.caption">Consectetur adipiscing</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="3 of 4">
+            <div class="slide-img s3"></div>
+            <figcaption data-i18n="carousel.slide3.caption">Sed do eiusmod</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="4 of 4">
+            <div class="slide-img s4"></div>
+            <figcaption data-i18n="carousel.slide4.caption">Tempor incididunt</figcaption>
+          </figure>
+        </div>
+
+        <div class="carousel-controls">
+          <button class="ctrl prev" type="button" aria-label="Previous slide" data-i18n-attr="aria-label:carousel.prev">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dots" aria-label="Choose slide" data-i18n-attr="aria-label:carousel.dots.label"></div>
+          <span class="counter" aria-live="polite">1 / 4</span>
+          <button class="ctrl next" type="button" aria-label="Next slide" data-i18n-attr="aria-label:carousel.next">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Crimes -->
+    <section class="icon-links bleed" aria-labelledby="crimes-title">
+      <h2 class="section-title" id="crimes-title" data-i18n="crimes.title">Crimes</h2>
+
+      <a class="icon-tile col-6 md-3" href="page.html?page=high-crimes">
+        <img src="static/images/high-tech-crime.png" alt="" width="96" height="96"/>
+        <span data-i18n="crimes.highCrimes">High-Crimes</span>
+      </a>
+      <a class="icon-tile col-6 md-3" href="page.html?page=cryptocurrency-scam">
+        <img src="static/images/crypto-currency.png" alt="" width="96" height="96"/>
+        <span data-i18n="crimes.cryptoScam">Cryptocurrency scam</span>
+      </a>
+      <a class="icon-tile col-6 md-3" href="page.html?page=pig-butchering">
+        <img src="static/images/pig-butchering.png" alt="" width="96" height="96"/>
+        <span data-i18n="crimes.pigButchering">Pig butchering</span>
+      </a>
+      <a class="icon-tile col-6 md-3" href="page.html?page=identity-theft">
+        <img src="static/images/id-theft.png" alt="" width="96" height="96"/>
+        <span data-i18n="crimes.identityTheft">Identity theft</span>
+      </a>
+    </section>
+
+    <!-- Resources -->
+    <section class="icon-links bleed" aria-labelledby="resources-title">
+      <h2 class="section-title" id="resources-title" data-i18n="resources.title">Resources</h2>
+
+      <a class="icon-tile col-6 md-3" href="page.html?page=report-a-crime">
+        <img src="static/images/crime-reporting.png" alt="" width="96" height="96"/>
+        <span data-i18n="resources.reportCrime">How to report a crime</span>
+      </a>
+      <a class="icon-tile col-6 md-3" href="page.html?page=pig-butchering-awareness">
+        <img src="static/images/pig-butchering-awareness.png" alt="" width="96" height="96"/>
+        <span data-i18n="resources.pigButcheringAwareness">Pig butchering awareness</span>
+      </a>
+      <a class="icon-tile col-6 md-3" href="page.html?page=victim-assistance">
+        <img src="static/images/victim-assist-support-group.png" alt="" width="96" height="96"/>
+        <span data-i18n="resources.victimAssistance">Victim assistance / support groups</span>
+      </a>
+      <a class="icon-tile col-6 md-3" href="page.html?page=credit-bureaus">
+        <img src="static/images/credit-bureau-tips.png" alt="" width="96" height="96"/>
+        <span data-i18n="resources.creditBureaus">Credit bureaus</span>
+      </a>
+    </section>
+
+  </main>
+
+  <div data-include="footer"></div>
+
+</div>
+
+<!-- Dev: 12-column overlay (remove for production) -->
+<button class="toggle" type="button" data-i18n="dev.columns">Columns</button>
+<div class="overlay" aria-hidden="true">
+  <div class="grid">
+    <div></div><div></div><div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="media.title">Media | REACT</title>
+  <link rel="icon" href="static/images/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="static/images/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+
+<div class="page">
+
+  <div data-include="header"></div>
+
+  <main class="grid" id="main">
+    <section class="page-hero bleed">
+      <div class="page-hero-inner">
+        <h1 class="page-hero-title" data-i18n="media.heading">Media</h1>
+      </div>
+    </section>
+
+    <section class="media-login-section" hidden>
+      <form id="login-form" class="media-login">
+        <h2 class="media-section-title">Admin Login</h2>
+        <div class="media-field">
+          <label for="login-user">Username</label>
+          <input type="text" id="login-user" name="username" autocomplete="username" required>
+        </div>
+        <div class="media-field">
+          <label for="login-pass">Password</label>
+          <input type="password" id="login-pass" name="password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="media-submit">Log In</button>
+        <p class="media-form-msg" id="login-msg" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="media-form-section" hidden>
+      <div class="media-edit-header">
+        <h2 class="media-section-title">Add Media Entry</h2>
+        <button type="button" class="media-logout" id="logout-btn">Log Out</button>
+      </div>
+      <form id="media-form" class="media-form">
+        <div class="media-form-fields">
+          <div class="media-field">
+            <label for="publication">Publication</label>
+            <input type="text" id="publication" name="publication" required>
+          </div>
+          <div class="media-field">
+            <label for="article">Article</label>
+            <input type="text" id="article" name="article" required>
+          </div>
+          <div class="media-field">
+            <label for="media_url">Media URL</label>
+            <input type="url" id="media_url" name="media_url" placeholder="https://…" required>
+          </div>
+          <div class="media-field">
+            <label for="release_date">Release Date</label>
+            <input type="date" id="release_date" name="release_date" required>
+          </div>
+        </div>
+        <button type="submit" class="media-submit">Add Entry</button>
+        <p class="media-form-msg" id="form-msg" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="media-table-section">
+      <div class="media-table-wrap">
+        <table class="media-table" id="media-table">
+          <thead>
+            <tr>
+              <th>Publication</th>
+              <th>Article</th>
+              <th class="media-sortable" id="sort-date" aria-sort="descending">Release Date
+                <svg class="sort-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="media-tbody">
+            <tr><td colspan="3" class="media-loading">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div data-include="footer"></div>
+
+</div>
+
+<script>
+(function () {
+  var API = 'api/media.php';
+  var AUTH_API = 'api/auth.php';
+  var tbody = document.getElementById('media-tbody');
+  var formSection = document.querySelector('.media-form-section');
+  var loginSection = document.querySelector('.media-login-section');
+  var loginForm = document.getElementById('login-form');
+  var loginMsg = document.getElementById('login-msg');
+  var logoutBtn = document.getElementById('logout-btn');
+  var form = document.getElementById('media-form');
+  var msg = document.getElementById('form-msg');
+
+  var sortAsc = false;
+  var mediaRows = [];
+  var sortBtn = document.getElementById('sort-date');
+  var wantsEdit = new URLSearchParams(window.location.search).has('edit');
+  var isEdit = false;
+
+  function escHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function escAttr(str) {
+    return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function parseJSON(res) {
+    var ct = res.headers.get('content-type') || '';
+    if (!ct.includes('application/json')) {
+      throw new Error('Server did not return JSON. Check that PHP is running.');
+    }
+    return res.json().then(function (body) {
+      if (!res.ok) throw new Error(body.error || 'Server error');
+      return body;
+    });
+  }
+
+  function enableEditMode() {
+    isEdit = true;
+    loginSection.setAttribute('hidden', '');
+    formSection.removeAttribute('hidden');
+    document.querySelector('.media-table thead tr').insertAdjacentHTML('beforeend', '<th class="media-col-action"></th>');
+    loadMedia();
+  }
+
+  function showLogin() {
+    loginSection.removeAttribute('hidden');
+  }
+
+  if (wantsEdit) {
+    fetch(AUTH_API, { credentials: 'same-origin' })
+      .then(parseJSON)
+      .then(function (data) {
+        if (data.authenticated) enableEditMode();
+        else showLogin();
+      })
+      .catch(function () { showLogin(); });
+  }
+
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    loginMsg.textContent = '';
+    var btn = loginForm.querySelector('.media-submit');
+    btn.disabled = true;
+
+    fetch(AUTH_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        username: loginForm.username.value.trim(),
+        password: loginForm.password.value
+      })
+    })
+    .then(parseJSON)
+    .then(function () { enableEditMode(); })
+    .catch(function (err) {
+      loginMsg.textContent = err.message;
+      loginMsg.className = 'media-form-msg error';
+    })
+    .finally(function () { btn.disabled = false; });
+  });
+
+  logoutBtn.addEventListener('click', function () {
+    fetch(AUTH_API, { method: 'DELETE', credentials: 'same-origin' })
+      .then(function () { window.location.href = 'media.html'; });
+  });
+
+  sortBtn.addEventListener('click', function () {
+    sortAsc = !sortAsc;
+    sortBtn.setAttribute('aria-sort', sortAsc ? 'ascending' : 'descending');
+    renderRows(mediaRows);
+  });
+
+  function formatDate(iso) {
+    var d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  function renderRows(rows) {
+    mediaRows = rows;
+    var cols = isEdit ? 4 : 3;
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="' + cols + '" class="media-empty">No entries yet.</td></tr>';
+      return;
+    }
+    var sorted = rows.slice().sort(function (a, b) {
+      return sortAsc
+        ? a.release_date.localeCompare(b.release_date)
+        : b.release_date.localeCompare(a.release_date);
+    });
+    tbody.innerHTML = sorted.map(function (r) {
+      var articleCell = r.media_url
+        ? '<a href="' + escAttr(r.media_url) + '" target="_blank" rel="noopener">' + escHtml(r.article) + '</a>'
+        : escHtml(r.article);
+      var deleteCell = isEdit
+        ? '<td class="media-col-action"><button class="media-delete" type="button" data-id="' + r.id + '" aria-label="Delete entry">&times;</button></td>'
+        : '';
+      return '<tr>'
+        + '<td>' + escHtml(r.publication) + '</td>'
+        + '<td>' + articleCell + '</td>'
+        + '<td>' + escHtml(formatDate(r.release_date)) + '</td>'
+        + deleteCell
+        + '</tr>';
+    }).join('');
+  }
+
+  function loadMedia() {
+    fetch(API)
+      .then(parseJSON)
+      .then(renderRows)
+      .catch(function (err) {
+        var cols = isEdit ? 4 : 3;
+        tbody.innerHTML = '<tr><td colspan="' + cols + '" class="media-empty">' + escHtml(err.message) + '</td></tr>';
+      });
+  }
+
+  tbody.addEventListener('click', function (e) {
+    var btn = e.target.closest('.media-delete');
+    if (!btn) return;
+    if (!confirm('Remove this entry?')) return;
+    var id = btn.getAttribute('data-id');
+    btn.disabled = true;
+    fetch(API + '?id=' + encodeURIComponent(id), { method: 'DELETE' })
+      .then(parseJSON)
+      .then(function () { loadMedia(); })
+      .catch(function (err) { alert(err.message); });
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = form.querySelector('.media-submit');
+    btn.disabled = true;
+    msg.textContent = '';
+
+    var data = {
+      publication: form.publication.value.trim(),
+      article: form.article.value.trim(),
+      media_url: form.media_url.value.trim(),
+      release_date: form.release_date.value
+    };
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(parseJSON)
+    .then(function () {
+      form.reset();
+      msg.textContent = 'Entry added.';
+      msg.className = 'media-form-msg success';
+      loadMedia();
+    })
+    .catch(function (err) {
+      msg.textContent = err.message;
+      msg.className = 'media-form-msg error';
+    })
+    .finally(function () { btn.disabled = false; });
+  });
+
+  loadMedia();
+})();
+</script>
+
+<!-- Dev: 12-column overlay (remove for production) -->
+<button class="toggle" type="button" data-i18n="dev.columns">Columns</button>
+<div class="overlay" aria-hidden="true">
+  <div class="grid">
+    <div></div><div></div><div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+</div>
+
+</body>
+</html>

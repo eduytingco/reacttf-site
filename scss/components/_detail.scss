@@ -10,6 +10,7 @@
   row-gap: 32px;
   align-items: start;
   padding-block: 24px 48px;
+  min-height: 50vh;
 }
 
 .detail-status { margin: 48px 0; color: var(--muted); }
@@ -31,10 +32,11 @@
 
   a {
     @include plain-link(var(--accent));
+    text-transform: capitalize;
     &:hover { text-decoration: underline; }
   }
 
-  [aria-current="page"] { color: var(--text); }
+  [aria-current="page"] { color: var(--text); text-transform: capitalize; }
 }
 
 // --------------------------------------------------------------------------
@@ -57,7 +59,7 @@
   flex-direction: column;
   justify-content: flex-end;
   min-height: 200px;
-  max-width: 720px;
+  max-width: 800px;
 }
 
 .page-hero-title {
@@ -67,6 +69,7 @@
   font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
+  text-transform: capitalize;
 }
 
 .detail-header { margin-bottom: 8px; }
@@ -124,6 +127,7 @@
     padding: 12px 0;
     @include plain-link;
     font-weight: 600;
+    text-transform: capitalize;
 
     &:hover { color: var(--accent); }
     &:focus-visible { @include focus-ring(2px, 4px); }

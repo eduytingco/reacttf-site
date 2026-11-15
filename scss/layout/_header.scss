@@ -32,7 +32,6 @@
   flex: none;
   width: $badge-size;
   height: $badge-size;
-  animation: fade-in-slide 1s ease-out both;
 }
 
 .brand-text { display: flex; flex-direction: column; min-width: 0; }
@@ -42,23 +41,38 @@
 
   .letter {
     display: inline-block;
-    opacity: 0;
-    animation: fade-in-slide .6s ease-out both;
   }
 }
 
 .brand-tagline {
   font-size: 12px; line-height: 1.3; color: var(--muted);
-  opacity: 0;
-  animation: fade-in-slide .8s ease-out .8s both;
+}
+
+// Animate only on the index page
+body[data-animate] {
+  .badge {
+    animation: fade-in-slide 1s ease-out both;
+  }
+
+  .brand-name .letter {
+    opacity: 0;
+    animation: fade-in-slide .6s ease-out both;
+  }
+
+  .brand-tagline {
+    opacity: 0;
+    animation: fade-in-slide .8s ease-out .8s both;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .badge,
-  .brand-name .letter,
-  .brand-tagline {
-    animation: none;
-    opacity: 1;
+  body[data-animate] {
+    .badge,
+    .brand-name .letter,
+    .brand-tagline {
+      animation: none;
+      opacity: 1;
+    }
   }
 }
 
@@ -117,23 +131,41 @@
 .nav-submenu {
   display: none;
   position: absolute;
-  top: calc(100% + 8px);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   min-width: 200px;
-  padding: 6px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: $radius-lg;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+  padding: 8px 0 0;
+  background: transparent;
+  border: none;
   z-index: $z-menu + 1;
+
+  // Visual container sits inside the hover-bridge padding
+  &::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: $radius-lg;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+    z-index: -1;
+  }
 
   a {
     padding: 10px 14px !important;
+    margin: 0 6px;
     border-bottom: 0 !important;
     border-radius: $radius-sm;
     font-size: 14px !important;
     white-space: nowrap;
+    text-transform: capitalize;
+
+    &:first-child { margin-top: 14px; }
+    &:last-child  { margin-bottom: 6px; }
 
     &:hover {
       background: var(--container);

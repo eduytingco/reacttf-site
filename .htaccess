@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# Allow direct access to maintenance.html itself and static assets
+RewriteCond %{REQUEST_URI} ^/maintenance\.html$ [OR]
+RewriteCond %{REQUEST_URI} ^/static/ [OR]
+RewriteCond %{REQUEST_URI} ^/css/ [OR]
+RewriteCond %{REQUEST_URI} ^/js/
+RewriteRule ^ - [L]
+
+# Skip maintenance if bypass cookie is set
+RewriteCond %{HTTP_COOKIE} !bypass_maintenance=true
+
+# Skip maintenance for API calls (so the media form still works when bypassed)
+RewriteCond %{REQUEST_URI} !^/api/
+
+# Redirect everything else to maintenance page
+RewriteRule ^ /maintenance.html [R=302,L]

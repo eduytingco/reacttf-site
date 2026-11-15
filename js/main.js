@@ -331,21 +331,6 @@ async function renderPage() {
     container.replaceChildren(...content);
     container.setAttribute('aria-busy', 'false');
 }
-/* Brand name letter animation
-   -------------------------------------------------------------------------- */
-function initBrandAnimation() {
-    $$('.brand-name').forEach((el) => {
-        const text = el.textContent || '';
-        el.textContent = '';
-        for (let i = 0; i < text.length; i++) {
-            const span = document.createElement('span');
-            span.className = 'letter';
-            span.textContent = text[i];
-            span.style.animationDelay = `${0.25 + i * 0.12}s`;
-            el.appendChild(span);
-        }
-    });
-}
 /* Mobile menu
    -------------------------------------------------------------------------- */
 function initMenu() {
@@ -366,36 +351,6 @@ function initMenu() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape')
             setOpen(false);
-    });
-}
-/* Site search toggle
-   -------------------------------------------------------------------------- */
-function initSearch() {
-    const header = $('.header');
-    const toggle = $('.search-toggle');
-    const bar = $('.search-bar');
-    const input = $('.search-input');
-    const closeBtn = $('.search-close');
-    if (!header || !toggle || !bar || !input || !closeBtn) return;
-    const open = () => {
-        header.classList.add('search-active');
-        toggle.setAttribute('aria-expanded', 'true');
-        input.focus();
-    };
-    const close = () => {
-        header.classList.remove('search-active');
-        toggle.setAttribute('aria-expanded', 'false');
-        input.value = '';
-        toggle.focus();
-    };
-    toggle.addEventListener('click', open);
-    closeBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        close();
-    });
-    bar.addEventListener('submit', (e) => e.preventDefault());
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && header.classList.contains('search-active')) close();
     });
 }
 const DEFAULT_CAROUSEL_OPTIONS = {
@@ -504,44 +459,6 @@ function initCarousel(carousel, options = {}) {
     else
         window.addEventListener('load', startAutoplay, { once: true });
 }
-/* Nav dropdowns
-   -------------------------------------------------------------------------- */
-function initDropdowns() {
-    $$('.nav-dropdown-toggle').forEach((btn) => {
-        const dropdown = btn.closest('.nav-dropdown');
-        if (!dropdown) return;
-        btn.addEventListener('click', () => {
-            const isOpen = dropdown.classList.contains('open');
-            $$('.nav-dropdown.open').forEach((d) => {
-                d.classList.remove('open');
-                const t = $('.nav-dropdown-toggle', d);
-                if (t) t.setAttribute('aria-expanded', 'false');
-            });
-            if (!isOpen) {
-                dropdown.classList.add('open');
-                btn.setAttribute('aria-expanded', 'true');
-            }
-        });
-    });
-    document.addEventListener('click', (e) => {
-        if (!(e.target instanceof Element) || !e.target.closest('.nav-dropdown')) {
-            $$('.nav-dropdown.open').forEach((d) => {
-                d.classList.remove('open');
-                const t = $('.nav-dropdown-toggle', d);
-                if (t) t.setAttribute('aria-expanded', 'false');
-            });
-        }
-    });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            $$('.nav-dropdown.open').forEach((d) => {
-                d.classList.remove('open');
-                const t = $('.nav-dropdown-toggle', d);
-                if (t) t.setAttribute('aria-expanded', 'false');
-            });
-        }
-    });
-}
 /* Dev: column overlay toggle (remove for production)
    -------------------------------------------------------------------------- */
 function initColumnToggle() {
@@ -556,11 +473,8 @@ async function main() {
     // Partials and messages load in parallel; text is applied once both are in
     await Promise.all([loadPartials(), loadMessages()]);
     applyMessages();
-    initBrandAnimation();
     await renderPage(); // builds its own text with t(), and sets the page title
     initMenu();
-    initDropdowns();
-    initSearch();
     $$('.carousel').forEach((c) => initCarousel(c));
     initColumnToggle();
 }
