@@ -1,20 +1,108 @@
 @use "../abstracts" as *;
 
-// ==========================================================================
-//  7. Footer (markup: static/partials/footer.html)
-// ==========================================================================
-
 .footer {
+  margin-top: var(--gutter);
+  padding-block: 48px 32px;
+  color: $color-footer-text;
+  font-size: 14px;
+
+  &::before { background: $color-footer-bg; }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include up(lg) {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+}
+
+.footer-col {
+  ul {
+    @include plain-list;
+  }
+  li + li {
+    margin-top: 8px;
+  }
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 12px;
+
+  img {
+    width: $badge-size-compact;
+    height: $badge-size-compact;
+  }
+}
+
+.footer-brand-name {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.footer-about {
+  margin: 0;
+  line-height: 1.6;
+  max-width: 36ch;
+}
+
+.footer-heading {
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.footer-contact {
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  svg {
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+}
+
+.footer-bottom {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top: var(--gutter);
-  padding-block: 32px;
-  color: $color-footer-text;
-  font-size: 14px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(#fff, 0.12);
+  font-size: 13px;
+}
 
-  &::before { background: $color-footer-bg; }   // the .bleed layer
-  a { color: #fff; }
+.footer-legal {
+  display: flex;
+  gap: 16px;
+
+  a {
+    color: $color-footer-text;
+    &:hover { color: #fff; }
+  }
 }
