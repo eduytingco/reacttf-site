@@ -35,7 +35,7 @@ jobs:
       - name: Prepare Pages artifact
         run: |
           mkdir -p _site
-          cp index.html page.html maintenance.html messages.properties _site/
+          cp *.html messages.properties CNAME _site/
           cp -R css js static _site/
 
       - name: Upload Pages artifact
