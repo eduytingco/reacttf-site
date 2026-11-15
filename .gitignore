@@ -1,2 +1,5 @@
 node_modules/
 api/db.php
+api/.env
+.env
+.DS_Store
