@@ -263,6 +263,14 @@ function renderBreadcrumb(page) {
         ]),
     ]);
 }
+function renderPageHero(page) {
+    const wrapper = el('section', { className: 'page-hero bleed' });
+    const inner = el('div', { className: 'page-hero-inner' }, [
+        el('h1', { className: 'page-hero-title', text: t(page.titleKey) }),
+    ]);
+    wrapper.appendChild(inner);
+    return wrapper;
+}
 function renderArticle(page) {
     const sections = page.sections.map((section) => el('section', { className: 'detail-section' }, [
         el('h2', { text: section.heading }),
@@ -272,11 +280,6 @@ function renderArticle(page) {
             : []),
     ]));
     return el('article', { className: 'detail-article col-12 lg-8' }, [
-        el('header', { className: 'detail-header' }, [
-            el('p', { className: 'detail-eyebrow', text: t(CATEGORY_INFO[page.category].titleKey) }),
-            el('h1', { text: t(page.titleKey) }),
-            el('p', { className: 'detail-intro', text: page.intro }),
-        ]),
         ...sections,
     ]);
 }
@@ -311,7 +314,7 @@ async function renderPage() {
         const page = Object.prototype.hasOwnProperty.call(pages, slug) ? pages[slug] : undefined;
         if (page) {
             document.title = t('detail.titleFormat', [t(page.titleKey)]);
-            content = [renderBreadcrumb(page), renderArticle(page), renderRelated(slug, page, pages)];
+            content = [renderPageHero(page), renderBreadcrumb(page), renderArticle(page), renderRelated(slug, page, pages)];
         }
         else {
             document.title = t('detail.titleFormat', [t('detail.notFound.title')]);
@@ -327,6 +330,21 @@ async function renderPage() {
     }
     container.replaceChildren(...content);
     container.setAttribute('aria-busy', 'false');
+}
+/* Brand name letter animation
+   -------------------------------------------------------------------------- */
+function initBrandAnimation() {
+    $$('.brand-name').forEach((el) => {
+        const text = el.textContent || '';
+        el.textContent = '';
+        for (let i = 0; i < text.length; i++) {
+            const span = document.createElement('span');
+            span.className = 'letter';
+            span.textContent = text[i];
+            span.style.animationDelay = `${0.25 + i * 0.12}s`;
+            el.appendChild(span);
+        }
+    });
 }
 /* Mobile menu
    -------------------------------------------------------------------------- */
@@ -486,6 +504,44 @@ function initCarousel(carousel, options = {}) {
     else
         window.addEventListener('load', startAutoplay, { once: true });
 }
+/* Nav dropdowns
+   -------------------------------------------------------------------------- */
+function initDropdowns() {
+    $$('.nav-dropdown-toggle').forEach((btn) => {
+        const dropdown = btn.closest('.nav-dropdown');
+        if (!dropdown) return;
+        btn.addEventListener('click', () => {
+            const isOpen = dropdown.classList.contains('open');
+            $$('.nav-dropdown.open').forEach((d) => {
+                d.classList.remove('open');
+                const t = $('.nav-dropdown-toggle', d);
+                if (t) t.setAttribute('aria-expanded', 'false');
+            });
+            if (!isOpen) {
+                dropdown.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+    document.addEventListener('click', (e) => {
+        if (!(e.target instanceof Element) || !e.target.closest('.nav-dropdown')) {
+            $$('.nav-dropdown.open').forEach((d) => {
+                d.classList.remove('open');
+                const t = $('.nav-dropdown-toggle', d);
+                if (t) t.setAttribute('aria-expanded', 'false');
+            });
+        }
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            $$('.nav-dropdown.open').forEach((d) => {
+                d.classList.remove('open');
+                const t = $('.nav-dropdown-toggle', d);
+                if (t) t.setAttribute('aria-expanded', 'false');
+            });
+        }
+    });
+}
 /* Dev: column overlay toggle (remove for production)
    -------------------------------------------------------------------------- */
 function initColumnToggle() {
@@ -500,8 +556,10 @@ async function main() {
     // Partials and messages load in parallel; text is applied once both are in
     await Promise.all([loadPartials(), loadMessages()]);
     applyMessages();
+    initBrandAnimation();
     await renderPage(); // builds its own text with t(), and sets the page title
     initMenu();
+    initDropdowns();
     initSearch();
     $$('.carousel').forEach((c) => initCarousel(c));
     initColumnToggle();

@@ -37,6 +37,38 @@
   [aria-current="page"] { color: var(--text); }
 }
 
+// --------------------------------------------------------------------------
+//  Page hero (detail pages)
+// --------------------------------------------------------------------------
+
+.page-hero {
+  grid-column: 1 / -1;
+  padding-block: 48px 0;
+  margin-bottom: 8px;
+  overflow: visible;
+
+  &::before {
+    background: linear-gradient(135deg, $color-text, var(--accent));
+  }
+}
+
+.page-hero-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 200px;
+  max-width: 720px;
+}
+
+.page-hero-title {
+  margin: 0;
+  transform: translateY(16%);
+  color: #fff;
+  font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
 .detail-header { margin-bottom: 8px; }
 
 .detail-eyebrow {
