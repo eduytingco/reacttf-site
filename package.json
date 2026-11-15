@@ -12,7 +12,7 @@
     "watch:css": "sass scss/styles.scss css/styles.css --style=expanded --source-map --watch",
     "watch:js": "tsc --watch",
     "typecheck": "tsc --noEmit",
-    "serve": "python3 -m http.server 8000",
+    "serve": "node server.js",
     "start": "npm run build && npm run serve"
   },
   "dependencies": {
