@@ -1,10 +1,9 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/v3kxfaffq1pq/public_html/
-    - /bin/cp -R css "$DEPLOYPATH"
-    - /bin/cp -R js "$DEPLOYPATH"
-    - /bin/cp -R static "$DEPLOYPATH"
-    - /bin/cp -R api "$DEPLOYPATH"
-    - /bin/cp *.html "$DEPLOYPATH"
-    - /bin/cp .htaccess "$DEPLOYPATH"
+    - /bin/cp -R css /home/v3kxfaffq1pq/public_html/
+    - /bin/cp -R js /home/v3kxfaffq1pq/public_html/
+    - /bin/cp -R static /home/v3kxfaffq1pq/public_html/
+    - /bin/cp -R api /home/v3kxfaffq1pq/public_html/
+    - /bin/cp *.html /home/v3kxfaffq1pq/public_html/
+    - /bin/cp .htaccess /home/v3kxfaffq1pq/public_html/
