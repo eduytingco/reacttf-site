@@ -72,6 +72,24 @@ $placeholder-gradients: (
   font-size: 13px;
   min-width: 40vw;
   min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide-cta {
+  margin-top: auto;
+  align-self: flex-start;
+  display: inline-block;
+  padding: 8px 20px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: $radius-sm;
+  transition: background-color $ease-fast;
+
+  &:hover { background: color-mix(in srgb, var(--accent), #000 15%); }
 }
 
 .carousel-controls {
