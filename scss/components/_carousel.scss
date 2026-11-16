@@ -47,6 +47,33 @@
   object-fit: cover;
 }
 
+.slide-img {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  aspect-ratio: 16 / 9;
+  max-height: 75vh;
+  max-width: var(--max-width);
+  margin-inline: auto;
+
+  &.s1 { background-image: url('../static/images/reacttf-slide_cover.PNG'); }
+  &.s2 { background-image: url('../static/images/reacttf-slide_high-crime.PNG'); }
+  &.s3 { background-image: url('../static/images/reacttf-slide_pig-butchering.PNG'); }
+  &.s4 { background-image: url('../static/images/reacttf-slide_id-theft.PNG'); }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin-inline: calc(50% - 50vw);
+    background: inherit;
+    filter: blur(8px) brightness(.45);
+    z-index: -1;
+  }
+}
+
+
 // Placeholder art: replace each .slide-img div with an <img>
 $placeholder-gradients: (
   (#3b5bdb, #91a7ff),
@@ -66,7 +93,7 @@ $placeholder-gradients: (
   // Line the caption up with the grid's content edge
   left: max(var(--margin), calc((100vw - var(--max-width)) / 2 + var(--margin)));
   padding: 8px 14px;
-  background: rgba(0, 0, 0, .25);
+  background: rgba(0, 0, 0, .45);
   border-radius: $radius-sm;
   color: #fff;
   font-size: 13px;
