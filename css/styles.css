@@ -1073,9 +1073,27 @@ body[data-animate] .brand-tagline {
   padding-block: 48px 0;
   margin-bottom: 8px;
   overflow: visible;
+  --hero-from: #1d2330;
+  --hero-to: var(--accent);
+}
+.page-hero[data-category=crimes] {
+  --hero-from: #2d1a1a;
+  --hero-to: #8b3a3a;
+}
+.page-hero[data-category=resources] {
+  --hero-from: #1a2a1e;
+  --hero-to: #3a7a52;
+}
+.page-hero[data-category=about] {
+  --hero-from: #1a1f2d;
+  --hero-to: #4a6a9b;
+}
+.page-hero[data-category=contacts] {
+  --hero-from: #2a1f2a;
+  --hero-to: #7a5a8b;
 }
 .page-hero::before {
-  background: linear-gradient(135deg, #1d2330, var(--accent));
+  background: linear-gradient(135deg, var(--hero-from), var(--hero-to));
 }
 
 .page-hero-inner {

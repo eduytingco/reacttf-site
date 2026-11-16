@@ -1,7 +1,7 @@
 <!-- Shared site header. Loaded into [data-include="header"] by src/main.ts -->
 <header class="grid">
   <div class="header">
-    <a class="brand" href="index.html" aria-label="REACT home" data-i18n-attr="aria-label:brand.home.label">
+    <a class="brand" href="index-real.html" aria-label="REACT home" data-i18n-attr="aria-label:brand.home.label">
       <picture>
         <source type="image/webp"
                 srcset="static/images/react-badge-64.webp 1x, static/images/react-badge-128.webp 2x, static/images/react-badge-192.webp 3x">
@@ -18,20 +18,20 @@
     </button>
 
     <nav id="site-nav" class="site-nav" aria-label="Main" data-i18n-attr="aria-label:nav.label">
-      <a href="index.html#about" data-i18n="nav.about">About</a>
+      <a href="page.html?page=about" data-i18n="nav.about">About</a>
       <div class="nav-dropdown">
         <button class="nav-dropdown-toggle" type="button" aria-expanded="false" data-i18n="nav.crimes">Crimes
           <svg class="nav-chevron" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="nav-submenu">
-          <a href="page.html?page=high-crimes" data-i18n="crimes.highCrimes">High crimes</a>
+          <a href="page.html?page=high-tech-crimes" data-i18n="crimes.highCrimes">High-Tech Crimes</a>
           <a href="page.html?page=cryptocurrency-scam" data-i18n="crimes.cryptoScam">Cryptocurrency scam</a>
           <a href="page.html?page=pig-butchering" data-i18n="crimes.pigButchering">Pig butchering</a>
           <a href="page.html?page=identity-theft" data-i18n="crimes.identityTheft">ID theft</a>
         </div>
       </div>
-      <a href="index.html#resources-title" data-i18n="nav.resources">Resources</a>
-      <a href="index.html#contacts" data-i18n="nav.contacts">Contacts</a>
+      <a href="page.html?page=resources" data-i18n="nav.resources">Resources</a>
+      <a href="page.html?page=contacts" data-i18n="nav.contacts">Contacts</a>
       <a href="media.html" data-i18n="nav.media">Media</a>
     </nav>
 

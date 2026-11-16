@@ -260,7 +260,7 @@ function el<K extends keyof HTMLElementTagNameMap>(
 
 const PAGES_URL = 'static/data/pages.json';
 
-type Category = 'crimes' | 'resources';
+type Category = 'crimes' | 'resources' | 'about' | 'contacts';
 
 interface PageSection {
   heading: string;
@@ -282,8 +282,10 @@ interface PagesFile {
 
 /** Section anchor on the home page and its title key, per category. */
 const CATEGORY_INFO: Record<Category, { anchor: string; titleKey: string }> = {
-  crimes: { anchor: 'index.html#crimes-title', titleKey: 'crimes.title' },
-  resources: { anchor: 'index.html#resources-title', titleKey: 'resources.title' },
+  crimes: { anchor: 'index-real.html#crimes-title', titleKey: 'crimes.title' },
+  resources: { anchor: 'index-real.html#resources-title', titleKey: 'resources.title' },
+  about: { anchor: 'page.html?page=about', titleKey: 'nav.about' },
+  contacts: { anchor: 'page.html?page=contacts', titleKey: 'nav.contacts' },
 };
 
 function isPagesFile(value: unknown): value is PagesFile {
@@ -309,17 +311,19 @@ function renderBreadcrumb(page: PageData): HTMLElement {
         : el('span', { text, attrs: { 'aria-current': 'page' } }),
     ]);
 
+  const crumbs = [crumb('index-real.html', t('detail.breadcrumb.home'))];
+  if (category.titleKey !== page.titleKey) {
+    crumbs.push(crumb(category.anchor, t(category.titleKey)));
+  }
+  crumbs.push(crumb(null, t(page.titleKey)));
+
   return el('nav', { className: 'breadcrumb', attrs: { 'aria-label': t('detail.breadcrumb.label') } }, [
-    el('ol', {}, [
-      crumb('index.html', t('detail.breadcrumb.home')),
-      crumb(category.anchor, t(category.titleKey)),
-      crumb(null, t(page.titleKey)),
-    ]),
+    el('ol', {}, crumbs),
   ]);
 }
 
 function renderPageHero(page: PageData): HTMLElement {
-  const wrapper = el('section', { className: 'page-hero bleed' });
+  const wrapper = el('section', { className: 'page-hero bleed', attrs: { 'data-category': page.category } });
   const inner = el('div', { className: 'page-hero-inner' }, [
     el('h1', { className: 'page-hero-title', text: t(page.titleKey) }),
   ]);

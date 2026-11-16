@@ -49,8 +49,16 @@
   margin-bottom: 8px;
   overflow: visible;
 
+  --hero-from: #{$color-text};
+  --hero-to: var(--accent);
+
+  &[data-category="crimes"]   { --hero-from: #2d1a1a; --hero-to: #8b3a3a; }
+  &[data-category="resources"] { --hero-from: #1a2a1e; --hero-to: #3a7a52; }
+  &[data-category="about"]    { --hero-from: #1a1f2d; --hero-to: #4a6a9b; }
+  &[data-category="contacts"] { --hero-from: #2a1f2a; --hero-to: #7a5a8b; }
+
   &::before {
-    background: linear-gradient(135deg, $color-text, var(--accent));
+    background: linear-gradient(135deg, var(--hero-from), var(--hero-to));
   }
 }
 
