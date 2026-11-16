@@ -423,6 +423,24 @@ function initMenu(): void {
   document.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape') setOpen(false);
   });
+
+  $$<HTMLButtonElement>('.nav-dropdown-toggle', nav).forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const dropdown = toggle.closest('.nav-dropdown');
+      if (!dropdown) return;
+      const isOpen = dropdown.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  });
+
+  $$<HTMLButtonElement>('.footer-dropdown-toggle').forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const dropdown = toggle.closest('.footer-dropdown');
+      if (!dropdown) return;
+      const isOpen = dropdown.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  });
 }
 
 /* Carousel

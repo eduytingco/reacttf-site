@@ -61,6 +61,8 @@
   &.s2 { background-image: url('../static/images/reacttf-slide_high-crime.PNG'); }
   &.s3 { background-image: url('../static/images/reacttf-slide_pig-butchering.PNG'); }
   &.s4 { background-image: url('../static/images/reacttf-slide_id-theft.PNG'); }
+  &.s5 { background-image: url('../static/images/reacttf-slide_crypto-scam.PNG'); }
+  &.s6 { background-image: url('../static/images/reacttf-slide_placeholder.PNG'); }
 
   &::before {
     content: "";
@@ -80,6 +82,8 @@ $placeholder-gradients: (
   (#0ca678, #96f2d7),
   (#e8590c, #ffc078),
   (#862e9c, #e599f7),
+  (#d9480f, #ffa94d),
+  (#1864ab, #74c0fc),
 );
 
 @each $stops in $placeholder-gradients {
@@ -101,6 +105,13 @@ $placeholder-gradients: (
   min-height: 30vh;
   display: flex;
   flex-direction: column;
+
+  h3 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
 }
 
 .slide-cta {

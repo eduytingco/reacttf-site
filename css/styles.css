@@ -476,9 +476,19 @@ body[data-animate] .brand-tagline {
     box-shadow: none;
     background: transparent;
   }
+  .nav-submenu::before {
+    display: none;
+  }
   .nav-submenu a {
     padding-left: 28px !important;
     font-size: 14px !important;
+    margin: 0;
+  }
+  .nav-submenu a:first-child {
+    margin-top: 0;
+  }
+  .nav-submenu a:last-child {
+    margin-bottom: 0;
   }
 }
 .search-toggle {
@@ -673,6 +683,12 @@ body[data-animate] .brand-tagline {
 .slide-img.s4 {
   background-image: url("../static/images/reacttf-slide_id-theft.PNG");
 }
+.slide-img.s5 {
+  background-image: url("../static/images/reacttf-slide_crypto-scam.PNG");
+}
+.slide-img.s6 {
+  background-image: url("../static/images/reacttf-slide_placeholder.PNG");
+}
 .slide-img::before {
   content: "";
   position: absolute;
@@ -699,6 +715,14 @@ body[data-animate] .brand-tagline {
   background: linear-gradient(135deg, #862e9c, #e599f7);
 }
 
+.s5 {
+  background: linear-gradient(135deg, #d9480f, #ffa94d);
+}
+
+.s6 {
+  background: linear-gradient(135deg, #1864ab, #74c0fc);
+}
+
 .slide figcaption {
   position: absolute;
   bottom: 20px;
@@ -712,6 +736,12 @@ body[data-animate] .brand-tagline {
   min-height: 30vh;
   display: flex;
   flex-direction: column;
+}
+.slide figcaption h3 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
 }
 
 .slide-cta {
@@ -996,6 +1026,47 @@ body[data-animate] .brand-tagline {
   fill: none;
   stroke: currentColor;
   stroke-width: 1.5;
+}
+
+.footer-dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+.footer-dropdown-toggle:hover {
+  text-decoration: underline;
+}
+
+.footer-chevron {
+  transition: transform 0.15s;
+}
+
+.footer-dropdown.open .footer-chevron {
+  transform: rotate(180deg);
+}
+
+.footer-submenu {
+  display: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  padding-left: 24px;
+  margin-top: 8px;
+}
+.footer-submenu li + li {
+  margin-top: 6px;
+}
+
+.footer-dropdown.open .footer-submenu {
+  display: block;
 }
 
 .footer-bottom {

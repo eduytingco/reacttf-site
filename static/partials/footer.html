@@ -19,7 +19,17 @@
         <h3 class="footer-heading" data-i18n="footer.quickLinks">Quick Links</h3>
         <ul>
           <li><a href="page.html?page=about" data-i18n="nav.about">About</a></li>
-          <li><a href="page.html?page=crimes" data-i18n="nav.crimes">Crimes</a></li>
+          <li class="footer-dropdown">
+            <button class="footer-dropdown-toggle" type="button" aria-expanded="false" data-i18n="nav.crimes">Crimes
+              <svg class="footer-chevron" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <ul class="footer-submenu">
+              <li><a href="page.html?page=high-tech-crimes" data-i18n="crimes.highCrimes">High-Tech Crimes</a></li>
+              <li><a href="page.html?page=cryptocurrency-scam" data-i18n="crimes.cryptoScam">Cryptocurrency scam</a></li>
+              <li><a href="page.html?page=pig-butchering" data-i18n="crimes.pigButchering">Pig butchering</a></li>
+              <li><a href="page.html?page=identity-theft" data-i18n="crimes.identityTheft">Identity theft</a></li>
+            </ul>
+          </li>
           <li><a href="page.html?page=resources" data-i18n="nav.resources">Resources</a></li>
           <li><a href="page.html?page=contacts" data-i18n="nav.contacts">Contacts</a></li>
           <li><a href="media.html" data-i18n="nav.media">Media</a></li>
