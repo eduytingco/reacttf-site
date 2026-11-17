@@ -258,7 +258,7 @@ function renderBreadcrumb(page) {
             : el('span', { text, attrs: { 'aria-current': 'page' } }),
     ]);
     const crumbs = [crumb('index-real.html', t('detail.breadcrumb.home'))];
-    if (category.titleKey !== page.titleKey) {
+    if (t(category.titleKey) !== t(page.titleKey)) {
         crumbs.push(crumb(category.anchor, t(category.titleKey)));
     }
     crumbs.push(crumb(null, t(page.titleKey)));
@@ -333,6 +333,103 @@ async function renderPage() {
     }
     container.replaceChildren(...content);
     container.setAttribute('aria-busy', 'false');
+}
+/* Search results (search.html?q=<query>)
+   -------------------------------------------------------------------------- */
+function collectPageText(page) {
+    const parts = [t(page.titleKey), page.intro];
+    for (const section of page.sections) {
+        parts.push(section.heading);
+        parts.push(...section.paragraphs);
+        if (section.list)
+            parts.push(...section.list);
+    }
+    return parts.join(' ');
+}
+function snippetAround(text, query, radius = 120) {
+    const lower = text.toLowerCase();
+    const pos = lower.indexOf(query.toLowerCase());
+    if (pos === -1)
+        return text.slice(0, radius * 2) + '…';
+    const start = Math.max(0, pos - radius);
+    const end = Math.min(text.length, pos + query.length + radius);
+    let snippet = '';
+    if (start > 0)
+        snippet += '…';
+    snippet += text.slice(start, end);
+    if (end < text.length)
+        snippet += '…';
+    return snippet;
+}
+function renderSearchResults() {
+    const container = $('[data-search-results]');
+    if (!container)
+        return;
+    const query = new URLSearchParams(location.search).get('q')?.trim() ?? '';
+    if (!query) {
+        document.title = t('detail.titleFormat', [t('search.title')]);
+        container.replaceChildren(el('section', { className: 'page-hero bleed', attrs: { 'data-category': 'about' } }, [
+            el('div', { className: 'page-hero-inner' }, [
+                el('h1', { className: 'page-hero-title', text: t('search.title') }),
+            ]),
+        ]), el('nav', { className: 'breadcrumb', attrs: { 'aria-label': t('detail.breadcrumb.label') } }, [
+            el('ol', {}, [
+                el('li', {}, [el('a', { text: t('detail.breadcrumb.home'), attrs: { href: 'index-real.html' } })]),
+                el('li', {}, [el('span', { text: t('search.title'), attrs: { 'aria-current': 'page' } })]),
+            ]),
+        ]), el('div', { className: 'detail-message col-12 lg-8' }, [
+            el('p', { text: t('search.prompt') }),
+        ]));
+        container.setAttribute('aria-busy', 'false');
+        return;
+    }
+    document.title = t('detail.titleFormat', [t('search.title')]);
+    fetchPages().then(({ pages }) => {
+        const lower = query.toLowerCase();
+        const results = [];
+        for (const [slug, page] of Object.entries(pages)) {
+            const text = collectPageText(page);
+            if (text.toLowerCase().includes(lower)) {
+                results.push({ slug, page, text });
+            }
+        }
+        const hero = el('section', { className: 'page-hero bleed', attrs: { 'data-category': 'about' } }, [
+            el('div', { className: 'page-hero-inner' }, [
+                el('h1', { className: 'page-hero-title', text: t('search.title') }),
+            ]),
+        ]);
+        const breadcrumb = el('nav', { className: 'breadcrumb', attrs: { 'aria-label': t('detail.breadcrumb.label') } }, [
+            el('ol', {}, [
+                el('li', {}, [el('a', { text: t('detail.breadcrumb.home'), attrs: { href: 'index-real.html' } })]),
+                el('li', {}, [el('span', { text: t('search.title'), attrs: { 'aria-current': 'page' } })]),
+            ]),
+        ]);
+        if (results.length === 0) {
+            container.replaceChildren(hero, breadcrumb, el('div', { className: 'detail-message col-12 lg-8' }, [
+                el('h2', { text: t('search.noResults', [query]) }),
+                el('p', { text: t('search.noResultsHint') }),
+                el('a', { className: 'detail-back', text: t('detail.back'), attrs: { href: 'index-real.html' } }),
+            ]));
+        }
+        else {
+            const list = el('div', { className: 'search-results col-12 lg-8' }, [
+                el('p', { className: 'search-meta', text: t('search.resultsFor', [query]) + ' — ' + t('search.resultCount', [results.length]) }),
+                ...results.map(({ slug, page, text }) => el('article', { className: 'search-result' }, [
+                    el('h2', {}, [
+                        el('a', { text: t(page.titleKey), attrs: { href: `page.html?page=${encodeURIComponent(slug)}` } }),
+                    ]),
+                    el('p', { className: 'search-result-category', text: t(CATEGORY_INFO[page.category].titleKey) }),
+                    el('p', { className: 'search-result-snippet', text: snippetAround(text, query) }),
+                ])),
+            ]);
+            container.replaceChildren(hero, breadcrumb, list);
+        }
+        container.setAttribute('aria-busy', 'false');
+    }).catch((err) => {
+        console.error('[search] Could not load pages:', err);
+        container.replaceChildren(...renderMessage('detail.error.title', 'detail.error.body'));
+        container.setAttribute('aria-busy', 'false');
+    });
 }
 /* Mobile menu
    -------------------------------------------------------------------------- */
@@ -480,6 +577,39 @@ function initCarousel(carousel, options = {}) {
     else
         window.addEventListener('load', startAutoplay, { once: true });
 }
+/* Search toggle
+   -------------------------------------------------------------------------- */
+function initSearch() {
+    const header = $('.header');
+    const toggle = $('.search-toggle');
+    const closeBtn = $('.search-close');
+    const input = $('.search-input');
+    const form = $('.search-bar');
+    if (!header || !toggle)
+        return;
+    const open = () => {
+        header.classList.add('search-active');
+        toggle.setAttribute('aria-expanded', 'true');
+        input?.focus();
+    };
+    const close = () => {
+        header.classList.remove('search-active');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+    };
+    toggle.addEventListener('click', open);
+    closeBtn?.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && header.classList.contains('search-active'))
+            close();
+    });
+    form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const q = input?.value.trim();
+        if (q)
+            location.href = `search.html?q=${encodeURIComponent(q)}`;
+    });
+}
 /* Brand letter animation
    -------------------------------------------------------------------------- */
 function initBrandLetters() {
@@ -512,9 +642,11 @@ async function main() {
     // Partials and messages load in parallel; text is applied once both are in
     await Promise.all([loadPartials(), loadMessages()]);
     applyMessages();
-    await renderPage(); // builds its own text with t(), and sets the page title
+    await renderPage();
+    renderSearchResults();
     initBrandLetters();
     initMenu();
+    initSearch();
     $$('.carousel').forEach((c) => initCarousel(c));
     initColumnToggle();
 }

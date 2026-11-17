@@ -114,8 +114,7 @@
 
 .footer-submenu {
   display: none;
-  @include plain-list;
-  padding-left: 24px;
+  @include plain-sub-list;
   margin-top: 8px;
 
   li + li { margin-top: 6px; }

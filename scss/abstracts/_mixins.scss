@@ -74,3 +74,10 @@
   padding: 0;
   list-style: none;
 }
+
+/// Sub list styling.
+@mixin plain-sub-list {
+  margin: 0;
+  padding: 0 0 0 24px !important;
+  list-style: none;
+}
