@@ -687,7 +687,7 @@ body[data-animate] .brand-tagline {
   background-image: url("../static/images/reacttf-slide_crypto-scam.PNG");
 }
 .slide-img.s6 {
-  background-image: url("../static/images/reacttf-slide_placeholder.PNG");
+  background-image: url("../static/images/reacttf-slide_resources.PNG");
 }
 .slide-img::before {
   content: "";
@@ -1163,8 +1163,42 @@ body[data-animate] .brand-tagline {
   --hero-from: #2a1f2a;
   --hero-to: #7a5a8b;
 }
+.page-hero[data-category=media] {
+  --hero-from: #1d2330;
+  --hero-to: #3b5bdb;
+}
 .page-hero::before {
   background: linear-gradient(135deg, var(--hero-from), var(--hero-to));
+}
+.page-hero::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  z-index: -1;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+  mix-blend-mode: overlay;
+}
+.page-hero[data-category=about]::after {
+  background-image: url("../static/images/hero-image.png");
+}
+.page-hero[data-category=resources]::after {
+  background-image: url("../static/images/hero-image-resources.png");
+}
+.page-hero[data-category=contacts]::after {
+  background-image: url("../static/images/hero-image-contacts.png");
+}
+.page-hero[data-category=crimes]::after {
+  background-image: url("../static/images/hero-image.png");
+}
+.page-hero[data-category=media]::after {
+  background-image: url("../static/images/hero-image-media.png");
 }
 
 .page-hero-inner {

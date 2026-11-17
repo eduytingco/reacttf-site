@@ -284,7 +284,7 @@
     },
     "resources": {
       "category": "resources",
-      "titleKey": "resources.title",
+      "titleKey": "nav.resources",
       "intro": "Find helpful resources for reporting crime, protecting yourself from fraud, and getting assistance if you've been a victim of high-tech crime.",
       "sections": [
         {

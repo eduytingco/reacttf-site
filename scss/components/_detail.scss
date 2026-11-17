@@ -56,10 +56,33 @@
   &[data-category="resources"] { --hero-from: #1a2a1e; --hero-to: #3a7a52; }
   &[data-category="about"]    { --hero-from: #1a1f2d; --hero-to: #4a6a9b; }
   &[data-category="contacts"] { --hero-from: #2a1f2a; --hero-to: #7a5a8b; }
+  &[data-category="media"] { --hero-from: #1d2330; --hero-to: #3b5bdb; }
 
   &::before {
     background: linear-gradient(135deg, var(--hero-from), var(--hero-to));
   }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    z-index: -1;
+    pointer-events: none;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: .1;
+    mix-blend-mode: overlay;
+  }
+
+  &[data-category="about"]::after     { background-image: url('../static/images/hero-image.png'); }
+  &[data-category="resources"]::after  { background-image: url('../static/images/hero-image-resources.png'); }
+  &[data-category="contacts"]::after   { background-image: url('../static/images/hero-image-contacts.png'); }
+  &[data-category="crimes"]::after     { background-image: url('../static/images/hero-image.png'); }
+  &[data-category="media"]::after      { background-image: url('../static/images/hero-image-media.png'); }
 }
 
 .page-hero-inner {
