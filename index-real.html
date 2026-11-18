@@ -154,7 +154,7 @@
     <section class="icon-links bleed" aria-labelledby="resources-title">
       <h2 class="section-title" id="resources-title" data-i18n="resources.title">Resources</h2>
 
-      <a class="icon-tile col-6 md-3" href="page.html?page=report-a-crime">
+      <a id="report-a-crime" class="icon-tile col-6 md-3">
         <img src="static/images/crime-reporting.png" alt="" width="96" height="96"/>
         <span data-i18n="resources.reportCrime">How to report a crime</span>
       </a>
@@ -309,6 +309,25 @@
     .finally(function () { uploadBtn.disabled = !csvUpload.files.length; });
   });
 })();
+
+document.getElementById('report-a-crime').addEventListener('click', function (e) {
+  e.preventDefault();
+  if (!navigator.geolocation) {
+    window.open('https://www.google.com/search?q=how+to+report+a+crime+near+me', '_blank');
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    function (pos) {
+      var q = encodeURIComponent(
+        'how to report a crime near ' + pos.coords.latitude + ',' + pos.coords.longitude
+      );
+      window.open('https://www.google.com/search?q=' + q, '_blank');
+    },
+    function () {
+      window.open('https://www.google.com/search?q=how+to+report+a+crime+near+me', '_blank');
+    }
+  );
+});
 </script>
 
 <!-- Dev: 12-column overlay (remove for production) -->
